@@ -1,4 +1,4 @@
-// Generated on 2015-07-18 using generator-angular-fullstack 2.1.0
+// Generated on 2015-07-19 using generator-angular-fullstack 2.1.0
 'use strict';
 
 module.exports = function (grunt) {
@@ -78,35 +78,6 @@ module.exports = function (grunt) {
           '<%= yeoman.client %>/{app,components}/**/*.mock.js'
         ],
         tasks: ['newer:jshint:all', 'karma']
-      },
-      injectSass: {
-        files: [
-          '<%= yeoman.client %>/{app,components}/**/*.{scss,sass}'],
-        tasks: ['injector:sass']
-      },
-      sass: {
-        files: [
-          '<%= yeoman.client %>/{app,components}/**/*.{scss,sass}'],
-        tasks: ['sass', 'autoprefixer']
-      },
-      jade: {
-        files: [
-          '<%= yeoman.client %>/{app,components}/*',
-          '<%= yeoman.client %>/{app,components}/**/*.jade'],
-        tasks: ['jade']
-      },
-      coffee: {
-        files: [
-          '<%= yeoman.client %>/{app,components}/**/*.{coffee,litcoffee,coffee.md}',
-          '!<%= yeoman.client %>/{app,components}/**/*.spec.{coffee,litcoffee,coffee.md}'
-        ],
-        tasks: ['newer:coffee', 'injector:scripts']
-      },
-      coffeeTest: {
-        files: [
-          '<%= yeoman.client %>/{app,components}/**/*.spec.{coffee,litcoffee,coffee.md}'
-        ],
-        tasks: ['karma']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -243,7 +214,7 @@ module.exports = function (grunt) {
       target: {
         src: '<%= yeoman.client %>/index.html',
         ignorePath: '<%= yeoman.client %>/',
-        exclude: [/bootstrap-sass-official/, /bootstrap.js/, '/json3/', '/es5-shim/', /bootstrap.css/, /font-awesome.css/ ]
+        exclude: [/bootstrap-sass-official/, /bootstrap.js/, '/json3/', '/es5-shim/']
       }
     },
 
@@ -424,14 +395,8 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'coffee',
-        'jade',
-        'sass',
       ],
       test: [
-        'coffee',
-        'jade',
-        'sass',
       ],
       debug: {
         tasks: [
@@ -443,9 +408,6 @@ module.exports = function (grunt) {
         }
       },
       dist: [
-        'coffee',
-        'jade',
-        'sass',
         'imagemin',
         'svgmin'
       ]
@@ -489,63 +451,6 @@ module.exports = function (grunt) {
       all: localConfig
     },
 
-    // Compiles Jade to html
-    jade: {
-      compile: {
-        options: {
-          data: {
-            debug: false
-          }
-        },
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.client %>',
-          src: [
-            '{app,components}/**/*.jade'
-          ],
-          dest: '.tmp',
-          ext: '.html'
-        }]
-      }
-    },
-
-    // Compiles CoffeeScript to JavaScript
-    coffee: {
-      options: {
-        sourceMap: true,
-        sourceRoot: ''
-      },
-      server: {
-        files: [{
-          expand: true,
-          cwd: 'client',
-          src: [
-            '{app,components}/**/*.coffee',
-            '!{app,components}/**/*.spec.coffee'
-          ],
-          dest: '.tmp',
-          ext: '.js'
-        }]
-      }
-    },
-
-    // Compiles Sass to CSS
-    sass: {
-      server: {
-        options: {
-          loadPath: [
-            '<%= yeoman.client %>/bower_components',
-            '<%= yeoman.client %>/app',
-            '<%= yeoman.client %>/components'
-          ],
-          compass: false
-        },
-        files: {
-          '.tmp/app/app.css' : '<%= yeoman.client %>/app/app.scss'
-        }
-      }
-    },
-
     injector: {
       options: {
 
@@ -572,25 +477,6 @@ module.exports = function (grunt) {
                  '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js'               
                ]
             ]
-        }
-      },
-
-      // Inject component scss into app.scss
-      sass: {
-        options: {
-          transform: function(filePath) {
-            filePath = filePath.replace('/client/app/', '');
-            filePath = filePath.replace('/client/components/', '');
-            return '@import \'' + filePath + '\';';
-          },
-          starttag: '// injector',
-          endtag: '// endinjector'
-        },
-        files: {
-          '<%= yeoman.client %>/app/app.scss': [
-            '<%= yeoman.client %>/{app,components}/**/*.{scss,sass}',
-            '!<%= yeoman.client %>/app/app.{scss,sass}'
-          ]
         }
       },
 
@@ -639,7 +525,6 @@ module.exports = function (grunt) {
       return grunt.task.run([
         'clean:server',
         'env:all',
-        'injector:sass', 
         'concurrent:server',
         'injector',
         'wiredep',
@@ -651,7 +536,6 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'env:all',
-      'injector:sass', 
       'concurrent:server',
       'injector',
       'wiredep',
@@ -681,7 +565,6 @@ module.exports = function (grunt) {
       return grunt.task.run([
         'clean:server',
         'env:all',
-        'injector:sass', 
         'concurrent:test',
         'injector',
         'autoprefixer',
@@ -694,7 +577,6 @@ module.exports = function (grunt) {
         'clean:server',
         'env:all',
         'env:test',
-        'injector:sass', 
         'concurrent:test',
         'injector',
         'wiredep',
@@ -712,7 +594,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'injector:sass', 
     'concurrent:dist',
     'injector',
     'wiredep',
